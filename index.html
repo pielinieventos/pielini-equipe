@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow">
+<title>Pielini Equipe</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=EB+Garamond:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: faixa verde Pielini no topo; lista de compras das próximas 2 semanas; depois um cartão por evento.
+   Só leitura: a equipe vê datas, baristas e insumos. Valores e contatos de clientes ficam na Central. */
+:root{
+  --bg:#F5EFEF; --surface:#FFFFFF; --sunk:#EFE0DB; --line:#E0CFC9;
+  --fg:#2A2A2A; --muted:#6A605D; --green:#546C62; --on-green:#F5EFEF; --blush:#EFE0DB;
+  --accent:#B77A3D; --warn:#8A5A24; --warn-bg:#F6E7D6; --ok:#3F5A50; --ok-bg:#DCE7E2;
+  --display:"Gloock","Playfair Display",Georgia,serif; --body:"EB Garamond",Garamond,Georgia,serif; --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1F1F1F; --surface:#2A2A2A; --sunk:#242424; --line:#3B3837; --fg:#F5EFEF; --muted:#BFB4B0;
+  --green:#3F5149; --accent:#D39556; --warn:#E3B07A; --warn-bg:#3A2D1F; --ok:#9CC3B3; --ok-bg:#2C3A35; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1F1F1F; --surface:#2A2A2A; --sunk:#242424; --line:#3B3837; --fg:#F5EFEF; --muted:#BFB4B0;
+  --green:#3F5149; --accent:#D39556; --warn:#E3B07A; --warn-bg:#3A2D1F; --ok:#9CC3B3; --ok-bg:#2C3A35; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:17px/1.5 var(--body)}
+.wrap{max-width:960px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.15;text-wrap:balance}
+.top{background:var(--green);color:var(--on-green)}
+.top .wrap{padding-block:22px;display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.top .logo{height:clamp(50px,8vw,64px);width:auto;color:var(--on-green);display:block}
+.top span{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--blush);padding-bottom:6px}
+main .wrap{padding-block:24px 56px;display:flex;flex-direction:column;gap:30px}
+.sec{display:flex;flex-direction:column;gap:12px}
+.sec h2{font-size:27px}
+.sec p.sub{margin:0;color:var(--muted);font-size:16px}
+.compras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.compras{grid-template-columns:minmax(0,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.kpi b{display:block;font-family:var(--display);font-weight:400;font-size:30px;font-variant-numeric:tabular-nums}
+.kpi small{color:var(--muted);font-size:15px}
+.ev{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.ev .head{display:flex;gap:16px;align-items:stretch}
+.ev .date{background:var(--green);color:var(--on-green);min-width:92px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ev .date b{font-family:var(--display);font-weight:400;font-size:34px;line-height:1}
+.ev .date small{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--blush)}
+.ev .info{padding:12px 16px 12px 0;min-width:0;flex:1}
+.ev .info h3{font-size:22px}
+.ev .meta{color:var(--muted);font-size:16px}
+.ev .body{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;padding:12px 16px 16px;border-top:1px solid var(--line)}
+.ev ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.ev li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:3px}
+.ev li b{font-variant-numeric:tabular-nums;text-align:right}
+.ev h4{margin:0 0 6px;font-family:var(--display);font-weight:400;font-size:18px;color:var(--green)}
+.tag{display:inline-block;border-radius:999px;padding:1px 10px;font-size:14px;font-weight:600}
+.tag.warn{background:var(--warn-bg);color:var(--warn)} .tag.ok{background:var(--ok-bg);color:var(--ok)}
+.nota{margin:0;white-space:pre-line;background:var(--sunk);border-radius:8px;padding:8px 10px;font-size:16px}
+.empty{border:1px dashed var(--line);border-radius:var(--r);padding:24px;text-align:center;color:var(--muted);background:var(--surface)}
+.upd{color:var(--muted);font-size:15px;margin:0}
+body{margin:0}
+</style>
+</head><body>
+
+<header class="top"><div class="wrap"><svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="232 209 379 184" role="img" aria-label="pielini coffee"> <defs> <clipPath id="clip_1"> <path transform="matrix(1,0,0,-1,0,595.276)" d="M0 595.276H841.89V0H0Z"/> </clipPath> </defs> <g clip-path="url(#clip_1)"> <path transform="matrix(1,0,0,-1,291.2115,276.4424)" d="M0 0C0 15.967-4.924 27.144-13.439 27.144-21.423 27.144-27.011 17.563-27.676 2.661V-3.327C-27.011-18.229-21.556-27.942-13.705-27.942-5.589-27.942 0-17.298 0 0M-22.088-59.609V-62.271H-55.219V-59.609L-54.021-58.545C-51.36-56.683-49.631-53.223-49.631-50.029V17.829C-49.631 21.022-51.36 24.482-54.021 26.345L-55.219 27.276V30.07L-33.132 34.195H-27.676V29.272C-23.817 33.131-18.362 35.526-10.645 35.526 8.781 35.526 21.954 21.022 21.954-.666 21.954-21.955 9.181-36.191-9.447-36.191-17.564-36.191-23.552-33.53-27.676-28.74V-50.029C-27.676-53.223-25.813-56.683-23.418-58.545Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,332.0592,213.24069)" d="M0 0C7.052 0 12.773-5.854 12.773-12.773 12.773-19.692 7.052-25.414 0-25.414-6.92-25.414-12.641-19.692-12.641-12.773-12.641-5.854-6.92 0 0 0M16.632-95.135V-97.929H-16.5V-95.135L-15.302-94.204C-12.641-92.208-10.911-88.881-10.911-85.688V-45.373C-10.911-42.179-12.641-38.719-15.302-36.857L-16.5-35.925V-33.131L5.588-29.006H11.043V-85.688C11.043-88.881 12.906-92.208 15.301-94.204Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,389.0065,249.16602)" d="M0 0C-7.983 0-15.967-10.112-15.967-24.882-15.967-28.607-15.435-32.066-14.636-35.127 13.306-27.144 12.773 0 0 0M29.007-14.503C29.007-29.539 16.1-40.849-1.463-40.849-5.056-40.849-8.781-40.316-12.641-39.385-9.313-45.904-3.459-49.63 4.125-49.63 16.898-49.63 24.749-39.119 26.079-34.462H28.873C24.615-51.759 13.306-63.335-4.391-63.335-23.816-63.335-38.054-49.63-38.054-28.607-38.054-6.52-22.486 8.383 .666 8.383 20.357 8.383 29.007-2.395 29.007-14.503" fill="currentColor"/> <path transform="matrix(1,0,0,-1,453.0065,308.376)" d="M0 0V-2.794H-33.131V0L-31.934 .932C-29.272 2.927-27.543 6.254-27.543 9.447V77.306C-27.543 80.499-29.272 83.958-31.934 85.821L-33.131 86.886V89.547L-11.044 93.672H-5.589V9.447C-5.589 6.254-3.726 2.927-1.331 .932Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,471.6315,213.24069)" d="M0 0C7.053 0 12.773-5.854 12.773-12.773 12.773-19.692 7.053-25.414 0-25.414-6.918-25.414-12.64-19.692-12.64-12.773-12.64-5.854-6.918 0 0 0M16.633-95.135V-97.929H-16.498V-95.135L-15.301-94.204C-12.64-92.208-10.91-88.881-10.91-85.688V-45.373C-10.91-42.179-12.64-38.719-15.301-36.857L-16.498-35.925V-33.131L5.589-29.006H11.044V-85.688C11.044-88.881 12.907-92.208 15.302-94.204Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,540.0231,266.8623)" d="M0 0C0 9.713-3.726 15.567-10.379 15.567-16.632 15.567-21.156 9.846-22.088 1.064V-32.067C-22.088-35.26-20.225-38.587-17.83-40.582L-16.499-41.514V-44.308H-49.63V-41.514L-48.433-40.582C-45.771-38.587-44.042-35.26-44.042-32.067V8.249C-44.042 11.442-45.771 14.902-48.433 16.765L-49.63 17.696V20.49L-27.543 24.615H-22.088V14.104C-17.298 21.555-9.314 26.079 .133 26.079 14.37 26.079 22.087 16.1 22.087 1.33V-33.131C22.087-36.591 23.151-37.921 25.812-37.921 25.812-37.921 27.809-37.921 29.006-36.059 29.006-39.385 24.083-45.639 14.104-45.639 5.322-45.639 0-40.849 0-30.337Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,586.858,213.24069)" d="M0 0C7.053 0 12.773-5.854 12.773-12.773 12.773-19.692 7.053-25.414 0-25.414-6.918-25.414-12.64-19.692-12.64-12.773-12.64-5.854-6.918 0 0 0M16.633-95.135V-97.929H-16.498V-95.135L-15.301-94.204C-12.64-92.208-10.91-88.881-10.91-85.688V-45.373C-10.91-42.179-12.64-38.719-15.301-36.857L-16.498-35.925V-33.131L5.589-29.006H11.044V-85.688C11.044-88.881 12.907-92.208 15.302-94.204Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,477.5289,325.0801)" d="M0 0C2.841 0 4.262-1.493 4.262-4.478 4.262-7.103 3.236-9.745 1.187-12.406-.396-14.42-1.779-15.427-2.966-15.427-3.974-15.427-4.477-14.852-4.477-13.7-4.477-13.09-4.333-12.604-4.045-12.244-3.937-12.101-3.506-11.688-2.75-11.004-2.104-10.393-1.438-9.476-.755-8.253-.288-7.426-.054-6.761-.054-6.257-.054-5.683-.377-5.395-1.024-5.395-1.779-5.395-2.931-5.987-4.477-7.174-6.922-9.08-9.367-12.064-11.812-16.128-14.329-20.371-15.588-23.715-15.588-26.16-15.588-26.951-15.354-27.652-14.887-28.264-14.203-29.199-13.287-29.666-12.136-29.666-9.87-29.666-7.191-28.264-4.099-25.459-1.475-23.05 .737-20.641 2.535-18.231 3.47-16.901 4.279-16.235 4.963-16.235 5.358-16.235 5.718-16.416 6.041-16.775 6.329-17.135 6.473-17.495 6.473-17.854 6.473-19.185 4.765-21.773 1.349-25.621-4.081-31.662-9.007-34.683-13.43-34.683-16.092-34.683-18.122-33.729-19.524-31.823-20.531-30.421-21.035-28.768-21.035-26.861-21.035-23.122-19.488-18.789-16.396-13.862-13.412-9.152-9.96-5.358-6.04-2.481-3.74-.828-1.726 0 0 0" fill="currentColor"/> <path transform="matrix(1,0,0,-1,498.8903,344.12013)" d="M0 0C-.899 .719-1.349 1.275-1.349 1.672-1.349 1.959-.773 2.751 .378 4.045 3.613 7.677 5.231 10.606 5.231 12.837 5.231 13.124 5.142 13.411 4.962 13.7 4.674 14.239 4.225 14.509 3.613 14.509 2.463 14.509 .772 13.394-1.456 11.165-4.334 8.287-6.526 5.321-8.037 2.265-9.799-1.223-10.68-4.118-10.68-6.419-10.68-7.03-10.518-7.57-10.194-8.037-9.728-8.685-9.134-9.008-8.414-9.008-6.688-9.008-4.837-7.713-2.858-5.124-1.996-4.046-1.295-2.932-.755-1.78-.216-.63 .035-.036 0 0M5.609 20.388C8.558 20.388 10.032 18.59 10.032 14.994 10.032 10.212 7.821 4.153 3.398-3.183-1.421-11.13-6.077-15.103-10.572-15.103-12.657-15.103-14.186-14.132-15.156-12.19-15.659-11.219-15.911-10.051-15.911-8.685-15.911-4.082-14.329 .917-11.165 6.311-8.217 11.308-4.746 15.191-.755 17.961 1.582 19.579 3.703 20.388 5.609 20.388" fill="currentColor"/> <path transform="matrix(1,0,0,-1,515.5055,340.1289)" d="M0 0C-2.015-3.812-4.675-9.961-7.983-18.446-11.398-27.112-13.107-33.837-13.107-38.619-13.107-39.554-12.873-40.381-12.406-41.101-11.902-41.819-11.309-42.179-10.626-42.179-8.396-42.179-5.467-38.438-1.834-30.96 2.265-22.617 4.314-14.977 4.314-8.037 4.314-5.34 3.793-3.309 2.751-1.941 2.354-1.402 1.437-.755 0 0M-1.834 7.065C3.667 18.932 9.043 28.587 14.293 36.03 17.853 41.063 20.801 44.731 23.139 47.033 24.757 48.651 26.141 49.46 27.292 49.46 27.724 49.46 28.101 49.316 28.425 49.029 28.928 48.669 29.18 48.184 29.18 47.572 29.18 46.781 28.55 45.648 27.292 44.174 19.345 35.113 12.153 24.253 5.717 11.597 11.47 13.789 15.479 14.887 17.745 14.887 19.398 14.887 20.766 14.473 21.845 13.646 22.958 12.783 23.517 11.794 23.517 10.68 23.517 10.104 23.318 9.582 22.923 9.115 22.384 8.432 21.683 8.091 20.819 8.091 20.208 8.091 19.003 8.594 17.206 9.601 16.702 9.852 16.055 9.979 15.264 9.979 11.668 9.979 7.353 8.342 2.319 5.07 4.477 4.062 6.005 2.732 6.903 1.079 8.126-1.259 8.737-4.136 8.737-7.552 8.737-16.361 6.112-25.655 .862-35.437-1.402-39.607-3.597-42.772-5.718-44.93-7.983-47.267-10.303-48.436-12.676-48.436-14.474-48.436-15.93-47.573-17.045-45.847-17.943-44.408-18.393-42.449-18.393-39.968-18.393-34.646-16.379-26.646-12.352-15.966-11.848-14.671-10.41-11.346-8.037-5.987-7.426-4.657-6.833-3.236-6.257-1.727-6.545-1.799-6.815-1.834-7.066-1.834-8.037-1.834-8.522-1.295-8.522-.216-8.522 1.689-6.293 4.117-1.834 7.065" fill="currentColor"/> <path transform="matrix(1,0,0,-1,539.1852,340.1289)" d="M0 0C-2.015-3.812-4.675-9.961-7.983-18.446-11.398-27.112-13.107-33.837-13.107-38.619-13.107-39.554-12.873-40.381-12.406-41.101-11.902-41.819-11.309-42.179-10.626-42.179-8.396-42.179-5.467-38.438-1.834-30.96 2.265-22.617 4.314-14.977 4.314-8.037 4.314-5.34 3.793-3.309 2.751-1.941 2.354-1.402 1.437-.755 0 0M-1.834 7.065C3.667 18.932 9.043 28.587 14.293 36.03 17.853 41.063 20.801 44.731 23.139 47.033 24.757 48.651 26.141 49.46 27.292 49.46 27.724 49.46 28.101 49.316 28.425 49.029 28.928 48.669 29.18 48.184 29.18 47.572 29.18 46.781 28.55 45.648 27.292 44.174 19.345 35.113 12.153 24.253 5.717 11.597 11.47 13.789 15.479 14.887 17.745 14.887 19.398 14.887 20.766 14.473 21.845 13.646 22.958 12.783 23.517 11.794 23.517 10.68 23.517 10.104 23.318 9.582 22.923 9.115 22.384 8.432 21.683 8.091 20.819 8.091 20.208 8.091 19.003 8.594 17.206 9.601 16.702 9.852 16.055 9.979 15.264 9.979 11.668 9.979 7.353 8.342 2.319 5.07 4.477 4.062 6.005 2.732 6.903 1.079 8.126-1.259 8.737-4.136 8.737-7.552 8.737-16.361 6.112-25.655 .862-35.437-1.402-39.607-3.597-42.772-5.718-44.93-7.983-47.267-10.303-48.436-12.676-48.436-14.474-48.436-15.93-47.573-17.045-45.847-17.943-44.408-18.393-42.449-18.393-39.968-18.393-34.646-16.379-26.646-12.352-15.966-11.848-14.671-10.41-11.346-8.037-5.987-7.426-4.657-6.833-3.236-6.257-1.727-6.545-1.799-6.815-1.834-7.066-1.834-8.037-1.834-8.522-1.295-8.522-.216-8.522 1.689-6.293 4.117-1.834 7.065" fill="currentColor"/> <path transform="matrix(1,0,0,-1,557.526,343.95899)" d="M0 0C2.517 .863 4.494 1.834 5.933 2.913 8.449 4.854 10.445 7.048 11.92 9.493 12.459 10.356 12.729 11.129 12.729 11.813 12.729 12.531 12.387 12.892 11.704 12.892 10.769 12.892 9.438 12.19 7.713 10.788 4.62 8.307 2.05 4.711 0 0M-1.187-4.207V-5.178C-1.187-5.969-.989-6.652-.594-7.228 .305-8.558 1.779-9.223 3.829-9.223 8.324-9.223 13.52-5.771 19.417 1.133 20.46 2.319 21.341 2.913 22.061 2.913 22.455 2.913 22.815 2.715 23.139 2.319 23.354 2.031 23.463 1.762 23.463 1.511 23.463 .108 21.736-2.265 18.284-5.609 15.588-8.234 12.71-10.374 9.654-12.027 6.598-13.682 3.757-14.509 1.133-14.509-1.564-14.509-3.686-13.574-5.232-11.704-6.274-10.409-6.796-8.648-6.796-6.418-6.796-.342-3.938 5.61 1.779 11.436 6.418 16.182 10.464 18.555 13.916 18.555 14.851 18.555 15.695 18.267 16.45 17.691 17.385 16.937 17.853 15.947 17.853 14.726 17.853 12.819 16.972 10.482 15.21 7.714 11.578 1.96 6.112-2.014-1.187-4.207" fill="currentColor"/> <path transform="matrix(1,0,0,-1,583.3092,343.95899)" d="M0 0C2.517 .863 4.494 1.834 5.933 2.913 8.449 4.854 10.445 7.048 11.92 9.493 12.459 10.356 12.729 11.129 12.729 11.813 12.729 12.531 12.387 12.892 11.704 12.892 10.769 12.892 9.438 12.19 7.713 10.788 4.62 8.307 2.05 4.711 0 0M-1.187-4.207V-5.178C-1.187-5.969-.989-6.652-.594-7.228 .305-8.558 1.779-9.223 3.829-9.223 8.324-9.223 13.52-5.771 19.417 1.133 20.46 2.319 21.341 2.913 22.061 2.913 22.455 2.913 22.815 2.715 23.139 2.319 23.354 2.031 23.463 1.762 23.463 1.511 23.463 .108 21.736-2.265 18.284-5.609 15.588-8.234 12.71-10.374 9.654-12.027 6.598-13.682 3.757-14.509 1.133-14.509-1.564-14.509-3.686-13.574-5.232-11.704-6.274-10.409-6.796-8.648-6.796-6.418-6.796-.342-3.938 5.61 1.779 11.436 6.418 16.182 10.464 18.555 13.916 18.555 14.851 18.555 15.695 18.267 16.45 17.691 17.385 16.937 17.853 15.947 17.853 14.726 17.853 12.819 16.972 10.482 15.21 7.714 11.578 1.96 6.112-2.014-1.187-4.207" fill="currentColor"/> <path transform="matrix(1,0,0,-1,44.2672,37.28949)" d="M0 0C-.54-.42-.96-1.2-.96-1.92V-19.049H3.78C5.58-19.049 7.47-18.059 8.521-16.589L8.97-15.929H9.6L8.97-20.909H-7.169V-20.279L-6.899-20.069C-6.3-19.619-5.909-18.869-5.909-18.149V-1.92C-5.909-1.2-6.3-.42-6.899 0L-7.169 .24V.84H.301V.24Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,61.8483,56.63867)" d="M0 0C1.89 0 3.149 2.49 3.149 6.209 3.149 9.989 1.89 12.419 .029 12.419-1.801 12.419-3.061 9.93-3.061 6.149-3.061 2.43-1.83 0 0 0M.149 14.309C4.979 14.309 8.129 11.1 8.129 6.33 8.129 1.5 4.89-1.86 0-1.86-4.771-1.86-8.04 1.41-8.04 6.209-8.04 11.069-4.74 14.309 .149 14.309" fill="currentColor"/> <path transform="matrix(1,0,0,-1,78.4371,53.54883)" d="M0 0C1.68 0 2.79 1.95 2.79 4.65 2.79 7.439 1.59 9.33-.03 9.33-1.65 9.33-2.82 7.47-2.82 4.74-2.82 2.01-1.65 0 0 0M.06 11.219C.66 11.219 1.229 11.189 1.739 11.069 1.439 13.409 3.09 15.359 5.399 15.179 7.649 15.029 8.039 13.02 7.409 12.06 7.079 11.549 6.539 11.399 6.06 11.399 5.64 11.399 5.25 11.52 5.04 11.58 4.829 11.64 4.649 11.669 4.47 11.669 3.84 11.669 3.42 11.219 3.12 10.77 5.97 9.87 7.739 7.68 7.739 4.8 7.739 .96 4.649-1.86 0-1.86-1.65-1.86-3.12-1.5-4.35-.87-4.44-1.41-3.45-1.92-1.2-2.07 2.399-2.34 8.609-1.65 8.609-6.09 8.609-9.15 5.579-11.189 .96-11.189-2.7-11.189-7.29-9.9-7.86-6.42-7.89-6.3-7.89-6.21-7.89-6.09-7.89-4.83-6.87-3.84-5.61-3.84-4.38-3.84-3.36-4.83-3.36-6.09-3.36-6.96-3.84-7.74-4.59-8.1-3.6-8.82-2.101-9.3-.24-9.3 2.01-9.3 3.54-8.61 3.54-7.23 3.54-5.1-.24-4.92-2.73-4.38-6.42-3.51-6.96-1.77-5.31-.24-6.87 .96-7.8 2.7-7.8 4.74-7.8 8.609-4.53 11.219 .06 11.219" fill="currentColor"/> <path transform="matrix(1,0,0,-1,95.2975,56.63867)" d="M0 0C1.89 0 3.149 2.49 3.149 6.209 3.149 9.989 1.89 12.419 .029 12.419-1.801 12.419-3.061 9.93-3.061 6.149-3.061 2.43-1.83 0 0 0M.149 14.309C4.979 14.309 8.129 11.1 8.129 6.33 8.129 1.5 4.89-1.86 0-1.86-4.771-1.86-8.04 1.41-8.04 6.209-8.04 11.069-4.74 14.309 .149 14.309" fill="currentColor"/> <path transform="matrix(1,0,0,-1,105.1666,44.51953)" d="M0 0H-1.409V1.86H0C1.92 1.86 3.09 2.82 3.09 4.65H4.95V1.86H6.72V0H4.95V-11.159C4.95-11.939 5.22-12.239 5.79-12.239 5.79-12.239 6.271-12.239 6.51-11.819 6.51-12.569 5.43-13.979 3.15-13.979 1.17-13.979 0-12.899 0-10.529Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,116.0866,36.11963)" d="M0 0C1.59 0 2.88-1.32 2.88-2.88 2.88-4.44 1.59-5.73 0-5.73-1.56-5.73-2.85-4.44-2.85-2.88-2.85-1.32-1.56 0 0 0M3.75-21.449V-22.079H-3.72V-21.449L-3.449-21.239C-2.85-20.789-2.46-20.039-2.46-19.319V-10.229C-2.46-9.51-2.85-8.729-3.449-8.31L-3.72-8.1V-7.47L1.26-6.54H2.49V-19.319C2.49-20.039 2.91-20.789 3.45-21.239Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,132.6764,50.36908)" d="M0 0C0 3.6-1.109 6.12-3.029 6.12-4.829 6.12-6.09 3.96-6.239 .6V-.75C-6.09-4.11-4.859-6.3-3.09-6.3-1.26-6.3 0-3.9 0 0M-4.979-13.439V-14.04H-12.449V-13.439L-12.18-13.199C-11.579-12.779-11.189-12-11.189-11.279V4.02C-11.189 4.74-11.579 5.52-12.18 5.94L-12.449 6.15V6.78L-7.47 7.71H-6.239V6.6C-5.369 7.47-4.14 8.01-2.399 8.01 1.98 8.01 4.95 4.74 4.95-.15 4.95-4.95 2.07-8.16-2.13-8.16-3.96-8.16-5.31-7.56-6.239-6.479V-11.279C-6.239-12-5.819-12.779-5.279-13.199Z" fill="currentColor"/> <path transform="matrix(1,0,0,-1,146.4166,56.63867)" d="M0 0C1.89 0 3.149 2.49 3.149 6.209 3.149 9.989 1.89 12.419 .029 12.419-1.801 12.419-3.061 9.93-3.061 6.149-3.061 2.43-1.83 0 0 0M.149 14.309C4.979 14.309 8.129 11.1 8.129 6.33 8.129 1.5 4.89-1.86 0-1.86-4.771-1.86-8.04 1.41-8.04 6.209-8.04 11.069-4.74 14.309 .149 14.309" fill="currentColor"/> </g> </svg> <span>Escala da equipe</span></div></header>
+<main><div class="wrap">
+  <section class="sec" id="login" aria-labelledby="h-login">
+    <h2 id="h-login">Entrar</h2>
+    <p class="sub">Digite a senha da equipe para ver a escala.</p>
+    <form id="login-f" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="senha" type="password" autocomplete="current-password" required aria-label="Senha"
+        style="flex:1 1 220px;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)">
+      <button type="submit" style="font:inherit;font-weight:600;padding:10px 18px;border:0;border-radius:8px;background:var(--green);color:var(--on-green);cursor:pointer">Entrar</button>
+      <label style="display:flex;gap:6px;align-items:center;color:var(--muted);font-size:16px"><input type="checkbox" id="lembrar" checked> Lembrar neste aparelho</label>
+    </form>
+    <p class="sub" id="login-erro" style="color:var(--warn)"></p>
+  </section>
+  <div id="conteudo" hidden>
+  <section class="sec" aria-labelledby="h-comp">
+    <h2 id="h-comp">Compras das próximas 2 semanas</h2>
+    <p class="sub" id="comp-sub">Soma dos insumos dos eventos até 14 dias a partir de hoje.</p>
+    <div class="compras">
+      <div class="kpi"><b id="c-cafe">–</b><small>de café especial</small></div>
+      <div class="kpi"><b id="c-leite">–</b><small>de leite</small></div>
+      <div class="kpi"><b id="c-copos">–</b><small>copos</small></div>
+    </div>
+    <div id="c-pers"></div>
+  </section>
+  <section class="sec" aria-labelledby="h-ev">
+    <h2 id="h-ev">Próximos eventos</h2>
+    <div id="eventos"><div class="empty">Carregando a escala…</div></div>
+    <p class="upd" id="upd"></p>
+  </section>
+</div></div></main>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const hojeISO = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+const dt = iso => new Date(iso + "T12:00:00");
+const diff = (a, b) => Math.round((dt(a) - dt(b)) / 864e5);
+const fmt = iso => iso ? iso.slice(8,10) + "/" + iso.slice(5,7) : "";
+const num = v => Number(v || 0).toLocaleString("pt-BR");
+
+function render(doc){
+  const hoje = hojeISO();
+  const evs = (doc?.eventos || []).filter(e => e.data >= hoje).sort((a, b) => a.data.localeCompare(b.data));
+  const prox = evs.filter(e => diff(e.data, hoje) <= 14);
+  $("#c-cafe").textContent = num(prox.reduce((a, e) => a + (e.kgCafe || 0), 0)) + " kg";
+  $("#c-leite").textContent = num(prox.reduce((a, e) => a + (e.leite || 0), 0)) + " L";
+  $("#c-copos").textContent = num(prox.reduce((a, e) => a + (e.copos || 0), 0));
+  $("#comp-sub").textContent = prox.length ? `Soma de ${prox.length} ${prox.length === 1 ? "evento" : "eventos"} até ${fmt(new Date(Date.now() + 14 * 864e5).toISOString().slice(0,10))}.` : "Nenhum evento nos próximos 14 dias.";
+  const pers = evs.filter(e => e.copo_texto);
+  $("#c-pers").innerHTML = pers.length ? `<div class="kpi"><small>Copos personalizados</small><ul style="list-style:none;padding:0;margin:6px 0 0">${pers.map(e => `<li>${esc(e.copo_texto === "sim" ? e.cliente : e.copo_texto)} · evento ${fmt(e.data)} · <span class="tag ${diff(e.copos_ate, hoje) <= 3 ? "warn" : "ok"}">encomendar até ${fmt(e.copos_ate)}</span></li>`).join("")}</ul></div>` : "";
+  $("#eventos").innerHTML = evs.length ? evs.map(e => {
+    const d = dt(e.data), dias = diff(e.data, hoje);
+    return `<article class="ev"><div class="head">
+      <div class="date"><small>${d.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "")}</small><b>${d.getDate()}</b><small>${d.toLocaleDateString("pt-BR", { month: "short" }).replace(".", "")}</small></div>
+      <div class="info"><h3>${esc(e.tipo)}${e.cliente ? " · " + esc(e.cliente) : ""}</h3>
+        <div class="meta">${e.horario ? esc(e.horario) + " · " : ""}${esc([e.local, e.cidade].filter(Boolean).join(", ") || "Local a confirmar")}</div>
+        <div class="meta">${dias === 0 ? "<b>Hoje</b>" : dias === 1 ? "<b>Amanhã</b>" : "Em " + dias + " dias"} · ${esc(e.estacao)} · ${e.convidados} convidados</div></div></div>
+      <div class="body">
+        <div><h4>Equipe</h4><p style="margin:0">${e.equipe ? esc(e.equipe) : `<span class="tag warn">Baristas a definir</span>`}</p><p class="meta" style="margin:4px 0 0">${e.baristas} ${e.baristas === 1 ? "barista" : "baristas"} no evento</p></div>
+        <div><h4>Insumos</h4><ul><li><span>Café</span><b>${num(e.kgCafe)} kg</b></li>${e.leite ? `<li><span>Leite</span><b>${num(e.leite)} L</b></li>` : ""}<li><span>Copos</span><b>${num(e.copos)}</b></li>${e.copo_texto ? `<li><span>Personalizados</span><b>${esc(e.copo_texto === "sim" ? "sim" : e.copo_texto)}</b></li>` : ""}</ul></div>
+        ${e.nota ? `<div><h4>Observações</h4><p class="nota">${esc(e.nota)}</p></div>` : ""}
+      </div></article>`;
+  }).join("") : `<div class="empty">Nenhum evento agendado por enquanto.</div>`;
+  $("#upd").textContent = doc?.atualizado_em ? "Atualizado em " + new Date(doc.atualizado_em).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }) + "." : "";
+}
+
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function abrir(senha){
+  const r = await fetch("data.enc.json?t=" + Date.now(), { cache: "no-store" });
+  if (!r.ok) throw new Error("sem-dados");
+  const d = await r.json();
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveKey"]);
+  const chave = await crypto.subtle.deriveKey({ name: "PBKDF2", salt: b64(d.salt), iterations: d.iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  const texto = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(d.iv) }, chave, b64(d.ct));
+  return JSON.parse(new TextDecoder().decode(texto));
+}
+async function entrar(senha, lembrar){
+  try {
+    const dados = await abrir(senha);
+    try { lembrar ? localStorage.setItem("pielini-equipe", senha) : localStorage.removeItem("pielini-equipe"); } catch {}
+    $("#login").hidden = true; $("#conteudo").hidden = false; render(dados);
+  } catch (e) {
+    $("#login").hidden = false; $("#conteudo").hidden = true;
+    $("#login-erro").textContent = e.message === "sem-dados" ? "A escala ainda não foi publicada. Tente mais tarde." : "Senha incorreta. Confira com a Pielini.";
+  }
+}
+$("#login-f").addEventListener("submit", e => { e.preventDefault(); entrar($("#senha").value, $("#lembrar").checked); });
+let salva = null; try { salva = localStorage.getItem("pielini-equipe"); } catch {}
+if (salva) entrar(salva, true);
+
+</script>
+
+</body></html>
